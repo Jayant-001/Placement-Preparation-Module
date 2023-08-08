@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<string> solve(vector<string> &hash, string &dig, int cur) {
+        if(cur >= dig.size()) {
+            vector<string> temp = {""};
+            return temp;
+        }
+        vector<string> ans;
+        vector<string> next = solve(hash, dig, cur+1);
+        for(char c : hash[dig[cur]-'0']) {
+            string temp = "";
+            temp.push_back(c);
+            for(auto neg : next) {
+                string res = temp + neg;
+                ans.push_back(res);
+            }
+        }
+        
+        return ans;
+    }
+    vector<string> letterCombinations(string digits) {
+        
+        if(digits.size() == 0) return {};
+        vector<string> keys = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        return solve(keys, digits, 0);
+    }
+};
