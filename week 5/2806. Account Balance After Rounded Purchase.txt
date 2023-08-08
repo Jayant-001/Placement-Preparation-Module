@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int accountBalanceAfterPurchase(int num) {
+        
+        vector<int> s = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+        
+        int ans = 10, diff = abs(num - s[0]);
+        for(auto i : s) {
+            if(abs(i-num) <= diff) {
+                diff = abs(i-num);
+                ans = i;
+            }
+        }
+        return 100 - ans;
+        
+        int first = num % 10, second = 10- (num % 5);
+        
+        if(second >= first) return 100 - num;
+        return 100 - first;
+    }
+};

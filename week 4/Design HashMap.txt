@@ -1,0 +1,48 @@
+class MyHashMap {
+public:
+    vector<list<pair<int, int>>> hash;
+    int size;
+    MyHashMap() {
+        size = 1000;
+        hash.resize(size);
+    }
+    list<pair<int, int>> :: iterator contains(list<pair<int, int>> &lst, int key) {
+        for(auto itr = lst.begin(); itr != lst.end(); itr++) {
+          if((*itr).first == key) return itr;
+        }
+        return lst.end();
+    }
+    int getHash(int key) {
+        return key % size;
+    }
+    void put(int key, int value) {
+        int h = getHash(key);
+        auto isExists = contains(hash[h], key);
+        if(isExists != hash[h].end()) 
+            hash[h].erase(isExists);
+        hash[h].push_back({key, value});
+    }
+    
+    int get(int key) {
+        int h = getHash(key);
+        auto isExists = contains(hash[h], key);
+        if(isExists != hash[h].end()) 
+            return (*isExists).second;
+        return -1;
+    }
+    
+    void remove(int key) {
+        int h = getHash(key);
+        auto isExists = contains(hash[h], key);
+        if(isExists != hash[h].end()) 
+            hash[h].erase(isExists);
+    }
+};
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap* obj = new MyHashMap();
+ * obj->put(key,value);
+ * int param_2 = obj->get(key);
+ * obj->remove(key);
+ */
