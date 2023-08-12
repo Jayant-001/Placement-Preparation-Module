@@ -1,0 +1,26 @@
+class Solution {
+public:
+    long long min(long long a, long long b) {
+        return a <= b ? a : b;
+    }
+    long long dp[101][101][101];
+    long long inf = 1e18;
+    long long solve(vector<int> &arr, vector<vector<int>> &factory, int i, int j, long long limit) {
+        if(i >= arr.size()) return 0;
+        if(j >= factory.size()) return inf;
+        if(dp[i][j][limit] != -1) return dp[i][j][limit];
+
+        long long nextLimit = j < factory.size()-1 ? factory[j+1][1] : 0;
+        if(limit > 0) {
+            return dp[i][j][limit] = min(solve(arr, factory, i, j+1, nextLimit), abs(arr[i]-factory[j][0])+solve(arr, factory, i+1, j, limit-1));
+        }
+        return dp[i][j][limit] = solve(arr, factory, i, j+1, nextLimit);
+    }
+    long long minimumTotalDistance(vector<int>& robot, vector<vector<int>>& factory) {
+
+        memset(dp, -1, sizeof(dp));
+        sort(robot.begin(), robot.end());
+        sort(factory.begin(), factory.end());
+        return solve(robot, factory, 0, 0, factory[0][1]);
+    }
+};

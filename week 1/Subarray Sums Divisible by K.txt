@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& nums, int k) {
+        
+        vector<int> hash(10009, 0);
+        int sum = 0, ans = 0;
+        hash[0] = 1;
+        
+        for(auto i : nums) {
+            sum += i;
+            int mod = sum % k;
+            mod = mod < 0 ? mod + k : mod;
+            ans += hash[mod];
+            hash[mod]++;
+        }
+        return ans;
+    }
+};

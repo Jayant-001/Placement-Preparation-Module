@@ -1,0 +1,65 @@
+class Solution {
+public:
+    // --------------------------solution based on couting bits-----------
+//     int findDuplicate(vector<int>& nums) {
+        
+//         int n = nums.size()-1;
+//         // count bits of every number in [1, n] 
+//         vector<int> dist(32, 0);
+//         for(int i = 1; i <= n; i++) {
+//             int j = 0;
+//             int cur = i;
+//             while(cur) {
+//                 if(cur&1) dist[32-j-1]++;
+//                 cur /= 2;
+//                 j++;
+//             }
+//         }
+        
+//         // count bits of nums array
+//         vector<int> all(32, 0);
+//         for(auto i : nums) {
+//             int j = 0;
+//             int cur = i;
+//             while(cur) {
+//                 if(cur&1) all[32-j-1]++;
+//                 cur /= 2;
+//                 j++;
+//             }
+//         }
+        
+//         // where bit is different means that bit is of duplicate number
+//         int ans = 0, j = 0;
+//         for(int i = 31; i >= 0; i--) {
+//             if(all[i] > dist[i]) {
+//                 ans += pow(2, j);
+//             }
+//             j++;
+//         }
+        
+//         // for(auto i : dist) cout << i << " "; cout << endl;
+//         // for(auto i : all) cout << i << " ";
+        
+//         return ans;
+//     }
+    
+    int findDuplicate(vector<int>& nums) {
+        
+        int dup;
+        for(auto i : nums) {
+            int k = abs(i);
+            if(nums[k-1] < 0) {
+                dup = k;
+                break;
+            }
+            nums[k-1] *= -1;
+        }
+        
+        for(auto &i : nums) i = abs(i);
+        
+        return dup;
+    }
+};
+// [1,3,4,2,2]
+// [3,1,3,4,2]
+// [2,2,2,2,2]
